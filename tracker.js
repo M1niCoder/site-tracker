@@ -27,9 +27,11 @@
   };
 
   // Заміни YOUR_WORKER_URL на URL твого Cloudflare Worker
-  fetch("https://YOUR_WORKER_URL/log", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  }).catch(() => {});
+fetch("https://old-math-71c0.trendomuz.workers.dev/log", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(payload)
+}).catch(() => {});
 })();
