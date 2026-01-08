@@ -13,7 +13,7 @@
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-ingest-token": "9b2d3f4e5a6c7b8d0123456789abcdefabcdef0123456789abcdef0123456789" // <-- твій токен для запису
+      "x-ingest-token": "1f4a9b8c3d6e2f017ab9c4d5e6f7890a1234567890abcdef1234567890abcdef" // <-- твій токен для запису
     },
     body: JSON.stringify(payload)
   }).catch(() => {});
