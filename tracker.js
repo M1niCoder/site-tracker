@@ -6,7 +6,7 @@ function collectFingerprint() {
   return {
     clientLocalTime: now.toISOString(),                     // локальний час
     clientTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // таймзона користувача
-    ua: navigator.userAgent,
+    userAgent: navigator.userAgent,                         // змінив з ua на userAgent
     lang: navigator.language,
     platform: navigator.platform,
     screen: `${screen.width}x${screen.height}`,
