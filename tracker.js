@@ -1,5 +1,37 @@
 const INGEST_TOKEN = "1f4a9b8c3d6e2f017ab9c4d5e6f7890a1234567890abcdef1234567890abcdef";
 
+/* ---------- TELEGRAM ---------- */
+function getTelegramData() {
+  try {
+    const tg = window.Telegram?.WebApp;
+    const user = tg?.initDataUnsafe?.user;
+
+    if (!user) return {
+      tg_user_id: null,
+      tg_username: null,
+      tg_first_name: null,
+      tg_last_name: null,
+      tg_init_data: null
+    };
+
+    return {
+      tg_user_id: String(user.id),
+      tg_username: user.username || null,
+      tg_first_name: user.first_name || null,
+      tg_last_name: user.last_name || null,
+      tg_init_data: tg.initData || null
+    };
+  } catch {
+    return {
+      tg_user_id: null,
+      tg_username: null,
+      tg_first_name: null,
+      tg_last_name: null,
+      tg_init_data: null
+    };
+  }
+}
+
 /* ---------- CANVAS ---------- */
 function getCanvasFingerprint() {
   try {
@@ -49,15 +81,13 @@ async function getAudioFingerprint() {
 
     oscillator.type = "triangle";
     oscillator.frequency.value = 10000;
-
     gain.gain.value = 0;
 
     oscillator.connect(analyser);
     analyser.connect(gain);
     gain.connect(ctx.destination);
 
-    oscillator.start(0);
-
+    oscillator.start();
     const buffer = new Float32Array(analyser.frequencyBinCount);
     analyser.getFloatFrequencyData(buffer);
 
@@ -73,14 +103,14 @@ async function getAudioFingerprint() {
 /* ---------- COLLECT ---------- */
 async function collectFingerprint() {
   return {
-    user_agent: navigator.userAgent,
-    platform: navigator.platform,
+    ...getTelegramData(),
+    user_agent: navigator.userAgent || null,
+    platform: navigator.platform || null,
     canvas_fingerprint: getCanvasFingerprint(),
     webgl_fingerprint: JSON.stringify(getWebGLFingerprint()),
     audio_fingerprint: await getAudioFingerprint(),
-    org: navigator.vendor || null,
     screen: `${screen.width || 0}x${screen.height || 0}`,
-    lang: navigator.language,
+    lang: navigator.language || null,
     cookies_enabled: navigator.cookieEnabled ? 1 : 0,
     connection_type: navigator.connection?.effectiveType || null,
   };
