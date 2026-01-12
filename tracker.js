@@ -1,37 +1,5 @@
 const INGEST_TOKEN = "1f4a9b8c3d6e2f017ab9c4d5e6f7890a1234567890abcdef1234567890abcdef";
 
-/* ---------- TELEGRAM ---------- */
-function getTelegramData() {
-  try {
-    const tg = window.Telegram?.WebApp;
-    const user = tg?.initDataUnsafe?.user;
-
-    if (!user) return {
-      tg_user_id: null,
-      tg_username: null,
-      tg_first_name: null,
-      tg_last_name: null,
-      tg_init_data: null
-    };
-
-    return {
-      tg_user_id: String(user.id),
-      tg_username: user.username || null,
-      tg_first_name: user.first_name || null,
-      tg_last_name: user.last_name || null,
-      tg_init_data: tg.initData || null
-    };
-  } catch {
-    return {
-      tg_user_id: null,
-      tg_username: null,
-      tg_first_name: null,
-      tg_last_name: null,
-      tg_init_data: null
-    };
-  }
-}
-
 /* ---------- CANVAS ---------- */
 function getCanvasFingerprint() {
   try {
@@ -103,7 +71,6 @@ async function getAudioFingerprint() {
 /* ---------- COLLECT ---------- */
 async function collectFingerprint() {
   return {
-    ...getTelegramData(),
     user_agent: navigator.userAgent || null,
     platform: navigator.platform || null,
     canvas_fingerprint: getCanvasFingerprint(),
